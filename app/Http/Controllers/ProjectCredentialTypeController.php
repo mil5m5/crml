@@ -14,7 +14,10 @@ class ProjectCredentialTypeController extends Controller
      */
     public function index()
     {
-        //
+        $model = ProjectCredentialType::all();
+        return view('project-credential-type.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class ProjectCredentialTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('project-credential-type.create');
     }
 
     /**
@@ -35,7 +38,14 @@ class ProjectCredentialTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $projectCredentialType = new ProjectCredentialType();
+        $projectCredentialType->name = $request->input('name');
+        if ($projectCredentialType->save()) {
+            return redirect()->route('project-credential-type.index');
+        }
     }
 
     /**
@@ -44,9 +54,12 @@ class ProjectCredentialTypeController extends Controller
      * @param  \App\Models\ProjectCredentialType  $projectCredentialType
      * @return \Illuminate\Http\Response
      */
-    public function show(ProjectCredentialType $projectCredentialType)
+    public function show($projectCredentialType)
     {
-        //
+        $model = ProjectCredentialType::find($projectCredentialType);
+        return view('project-credential-type.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +68,10 @@ class ProjectCredentialTypeController extends Controller
      * @param  \App\Models\ProjectCredentialType  $projectCredentialType
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProjectCredentialType $projectCredentialType)
+    public function edit($projectCredentialType)
     {
-        //
+        $model = ProjectCredentialType::find($projectCredentialType);
+        return view('project-credential-type.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +81,16 @@ class ProjectCredentialTypeController extends Controller
      * @param  \App\Models\ProjectCredentialType  $projectCredentialType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProjectCredentialType $projectCredentialType)
+    public function update(Request $request, $projectCredentialType)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $projectCredentialType = ProjectCredentialType::find($projectCredentialType);
+        $projectCredentialType->name = $request->input('name');
+        if ($projectCredentialType->save()) {
+            return redirect()->route('project-credential-type.index');
+        }
     }
 
     /**
@@ -78,8 +99,10 @@ class ProjectCredentialTypeController extends Controller
      * @param  \App\Models\ProjectCredentialType  $projectCredentialType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProjectCredentialType $projectCredentialType)
+    public function destroy($projectCredentialType)
     {
-        //
+        if(ProjectCredentialType::find($projectCredentialType)->delete()) {
+            return redirect()->route('project-credential-type.index');
+        }
     }
 }

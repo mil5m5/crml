@@ -13,7 +13,7 @@ class PositionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class PositionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'name' => ['string', 'required'],
+            'min_salary' => ['integer', 'required'],
+            'max_salary' => 'integer',
         ];
     }
 }

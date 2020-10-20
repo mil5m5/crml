@@ -13,7 +13,7 @@ class EmployeeSalaryChangesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class EmployeeSalaryChangesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'employee_id' => ['exists:App\Models\Employee,id'],
+            'old_salary' => ['required', 'numeric'],
+            'new_salary' => ['required', 'numeric'],
         ];
     }
 }

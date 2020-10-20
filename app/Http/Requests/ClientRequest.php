@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string $name
+ */
+
 class ClientRequest extends FormRequest
 {
     /**
@@ -24,7 +28,18 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'status' => ['required', 'integer'],
+            'paused_at' => 'integer',
+            'finished_at' => 'integer',
+            'created_at' => 'integer',
+            'updated_at' => 'integer',
+            'client_source_id' => 'integer',
+            'skype' => 'string',
+            'email' => 'string',
+            'phone' => 'string',
+            'whatsapp' => 'string',
+            'telegram' => 'string',
         ];
     }
 }

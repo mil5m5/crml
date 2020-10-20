@@ -13,7 +13,7 @@ class OutcomeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class OutcomeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['numeric', 'required'],
+            'type' => ['string', 'required'],
+            'is_paid' => 'integer',
+            'paid_at' => 'integer',
         ];
     }
 }

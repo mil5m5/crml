@@ -14,7 +14,10 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $model = Currency::all();
+        return view('currency.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        //
+        return view('currency.create');
     }
 
     /**
@@ -35,7 +38,15 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'currency' => ['required', 'string']
+        ]);
+        $currency = new Currency();
+        $currency->currency = $request->input('currency');
+        $currency->symbol = $request->input('symbol');
+        if ($currency->save()) {
+            return redirect()->route('currency.index');
+        }
     }
 
     /**
@@ -44,9 +55,12 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function show(Currency $currency)
+    public function show($currency)
     {
-        //
+        $model = Currency::find($currency);
+        return view('currency.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +69,10 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function edit(Currency $currency)
+    public function edit($currency)
     {
-        //
+        $model = Currency::find($currency);
+        return view('currency.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +82,17 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Currency $currency)
+    public function update(Request $request, $currency)
     {
-        //
+        $request->validate([
+            'currency' => ['required', 'string']
+        ]);
+        $currencyModel = Currency::find($currency);
+        $currencyModel->currency = $request->input('currency');
+        $currencyModel->symbol = $request->input('symbol');
+        if ($currencyModel->save()) {
+            return redirect()->route('currency.index');
+        }
     }
 
     /**
@@ -78,8 +101,10 @@ class CurrencyController extends Controller
      * @param  \App\Models\Currency  $currency
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Currency $currency)
+    public function destroy($currency)
     {
-        //
+        if(Currency::find($currency)->delete()) {
+            return redirect()->route('currency.index');
+        }
     }
 }

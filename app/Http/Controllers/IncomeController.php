@@ -14,7 +14,10 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        //
+        $model = Income::all();
+        return view('income.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        //
+        return view('income.create');
     }
 
     /**
@@ -35,7 +38,19 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['required', 'numeric'],
+        ]);
+        $income = new Income();
+        $income->date = strtotime($request->input('date'));
+        $income->notes = $request->input('notes');
+        $income->amount = $request->input('amount');
+        $income->currency_id = $request->input('currency_id');
+        $income->project_id = $request->input('project_id');
+        if ($income->save()) {
+            return redirect()->route('income.index');
+        }
     }
 
     /**
@@ -44,9 +59,12 @@ class IncomeController extends Controller
      * @param  \App\Models\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function show(Income $income)
+    public function show($income)
     {
-        //
+        $model = Income::find($income);
+        return view('income.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +73,10 @@ class IncomeController extends Controller
      * @param  \App\Models\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function edit(Income $income)
+    public function edit($income)
     {
-        //
+        $model = Income::find($income);
+        return view('income.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +86,21 @@ class IncomeController extends Controller
      * @param  \App\Models\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Income $income)
+    public function update(Request $request, $income)
     {
-        //
+        $request->validate([
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['required'],
+        ]);
+        $incomeModel = Income::find($income);
+        $incomeModel->date = strtotime($request->input('date'));
+        $incomeModel->notes = $request->input('notes');
+        $incomeModel->amount = $request->input('amount');
+        $incomeModel->currency_id = $request->input('currency_id');
+        $incomeModel->project_id = $request->input('project_id');
+        if ($incomeModel->save()) {
+            return redirect()->route('income.index');
+        }
     }
 
     /**
@@ -78,8 +109,10 @@ class IncomeController extends Controller
      * @param  \App\Models\Income  $income
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Income $income)
+    public function destroy($income)
     {
-        //
+        if(Income::find($income)->delete()) {
+            return redirect()->route('income.index');
+        }
     }
 }

@@ -13,7 +13,7 @@ class CurrencyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class CurrencyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'from_currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'to_currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['numeric', 'required'],
+            'rate' => 'numeric',
+            'exchanged' => 'numeric',
         ];
     }
 }

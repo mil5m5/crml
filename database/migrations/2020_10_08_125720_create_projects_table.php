@@ -18,8 +18,8 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->integer('salary_type');
             $table->double('salary_rate');
-            $table->integer('finished_at');
-            $table->integer('paused_at');
+            $table->integer('finished_at')->nullable();
+            $table->integer('paused_at')->nullable();
             $table->integer('status');
             $table->timestamps();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');

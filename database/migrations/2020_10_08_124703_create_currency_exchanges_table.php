@@ -15,10 +15,10 @@ class CreateCurrencyExchangesTable extends Migration
     {
         Schema::create('currency_exchanges', function (Blueprint $table) {
             $table->id();
-            $table->double('rate');
+            $table->double('rate')->nullable();
             $table->double('amount');
-            $table->double('exchanged');
-            $table->integer('date');
+            $table->double('exchanged')->nullable();
+            $table->integer('date')->nullable();
             $table->timestamps();
             $table->foreignId('from_currency_id')->constrained('currencies');
             $table->foreignId('to_currency_id')->constrained('currencies');

@@ -14,7 +14,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $model = Project::all();
+        return view('project.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('project.create');
     }
 
     /**
@@ -35,7 +38,24 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $project = new Project();
+        $project->name = $request->input('name');
+        $project->client_id = $request->input('client_id');
+        $project->salary_type = $request->input('salary_type');
+        $project->salary_rate = $request->input('salary_type');
+        if ($request->input('status') == Project::STATUS_PAUSED) {
+            $project->paused_at = time();
+        }elseif ($request->input('status') == Project::STATUS_FINISHED) {
+            $project->finished_at = time();
+        }
+        $project->status = $request->input('status');
+        $project->currency_id = $request->input('currency_id');
+        if ($project->save()) {
+            return redirect()->route('project.index');
+        }
     }
 
     /**
@@ -44,9 +64,12 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($project)
     {
-        //
+        $model = Project::find($project);
+        return view('project.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +78,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit($project)
     {
-        //
+        $model = Project::find($project);
+        return view('project.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +91,25 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, $project)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $projectModel = Project::find($project);
+        $projectModel->name = $request->input('name');
+        $projectModel->client_id = $request->input('client_id');
+        $projectModel->salary_type = $request->input('salary_type');
+        if ($request->input('status') == Project::STATUS_PAUSED) {
+            $projectModel->paused_at = time();
+        }elseif ($request->input('status') == Project::STATUS_FINISHED) {
+            $projectModel->finished_at = time();
+        }
+        $projectModel->status = $request->input('status');
+        $projectModel->currency_id = $request->input('currency_id');
+        if ($projectModel->save()) {
+            return redirect()->route('project.index');
+        }
     }
 
     /**
@@ -78,8 +118,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($project)
     {
-        //
+        if(Project::find($project)->delete()) {
+            return redirect()->route('project.index');
+        }
     }
 }

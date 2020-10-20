@@ -13,7 +13,7 @@ class ProjectRateChangesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class ProjectRateChangesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'project_id' => ['exists:App\Models\Project,id', 'required'],
+            'old_rate' => ['number', 'required'],
+            'new_rate' => ['number', 'required']
         ];
     }
 }

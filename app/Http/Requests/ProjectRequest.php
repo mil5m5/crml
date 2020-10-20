@@ -13,7 +13,7 @@ class ProjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'client_id' => ['exists:App\Models\Client,id', 'required'],
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'salary_type' => ['integer', 'required'],
+            'status' => ['integer', 'required'],
+            'name' => ['string', 'required'],
+            'finished_at' => 'integer',
+            'paused_at' => 'integer',
+            'salary_rate' => 'numeric',
+
         ];
     }
 }

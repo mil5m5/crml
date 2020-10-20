@@ -14,7 +14,10 @@ class ClientSourceController extends Controller
      */
     public function index()
     {
-        //
+        $model = ClientSource::all();
+        return view('client-source.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class ClientSourceController extends Controller
      */
     public function create()
     {
-        //
+        return view('client-source.create');
     }
 
     /**
@@ -35,7 +38,14 @@ class ClientSourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $clientSource = new ClientSource();
+        $clientSource->name = $request->input('name');
+        if ($clientSource->save()) {
+            return redirect()->route('client-source.index');
+        }
     }
 
     /**
@@ -44,9 +54,12 @@ class ClientSourceController extends Controller
      * @param  \App\Models\ClientSource  $clientSource
      * @return \Illuminate\Http\Response
      */
-    public function show(ClientSource $clientSource)
+    public function show($clientSource)
     {
-        //
+        $model = ClientSource::find($clientSource);
+        return view('client-source.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +68,10 @@ class ClientSourceController extends Controller
      * @param  \App\Models\ClientSource  $clientSource
      * @return \Illuminate\Http\Response
      */
-    public function edit(ClientSource $clientSource)
+    public function edit($clientSource)
     {
-        //
+        $model = ClientSource::find($clientSource);
+        return view('client-source.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +81,16 @@ class ClientSourceController extends Controller
      * @param  \App\Models\ClientSource  $clientSource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ClientSource $clientSource)
+    public function update(Request $request, $clientSource)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $clientSource = ClientSource::find($clientSource);
+        $clientSource->name = $request->input('name');
+        if ($clientSource->save()) {
+            return redirect()->route('client-source.index');
+        }
     }
 
     /**
@@ -78,8 +99,10 @@ class ClientSourceController extends Controller
      * @param  \App\Models\ClientSource  $clientSource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ClientSource $clientSource)
+    public function destroy($clientSource)
     {
-        //
+        if(ClientSource::find($clientSource)->delete()) {
+            return redirect()->route('client-source.index');
+        }
     }
 }

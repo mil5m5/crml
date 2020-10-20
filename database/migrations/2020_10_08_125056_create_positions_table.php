@@ -17,7 +17,7 @@ class CreatePositionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('min_salary');
-            $table->integer('max_salary');
+            $table->integer('max_salary')->nullable();
             $table->timestamps();
             $table->foreignId('currency_id')->constrained();
         });

@@ -15,7 +15,7 @@ class CreateProjectCredentialsTable extends Migration
     {
         Schema::create('project_credentials', function (Blueprint $table) {
             $table->id();
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->timestamps();
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->foreignId('credential_type_id')->constrained('project_credential_type');

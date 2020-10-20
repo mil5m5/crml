@@ -13,7 +13,7 @@ class EmployeeProjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class EmployeeProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'project_id' => ['exists:App\Models\Project,id'],
+            'employee_id' => ['exists:App\Models\Employee,id'],
+
         ];
     }
 }

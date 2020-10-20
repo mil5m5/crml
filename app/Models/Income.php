@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Income extends Model
 {
     use HasFactory;
+
+    public function currency()
+    {
+        return $this->belongsTo('App\Models\Currency');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
 }

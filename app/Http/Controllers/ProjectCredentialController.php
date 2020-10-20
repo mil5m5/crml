@@ -14,7 +14,10 @@ class ProjectCredentialController extends Controller
      */
     public function index()
     {
-        //
+        $model = ProjectCredential::all();
+        return view('project-credential.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class ProjectCredentialController extends Controller
      */
     public function create()
     {
-        //
+        return view('project-credential.create');
     }
 
     /**
@@ -35,7 +38,17 @@ class ProjectCredentialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'project_id' => ['required'],
+            'credential_type_id' => ['required']
+        ]);
+        $projectCredential = new ProjectCredential();
+        $projectCredential->value = $request->input('value');
+        $projectCredential->project_id = $request->input('project_id');
+        $projectCredential->credential_type_id = $request->input('credential_type_id');
+        if ($projectCredential->save()) {
+            return redirect()->route('project-credential.index');
+        }
     }
 
     /**
@@ -44,9 +57,12 @@ class ProjectCredentialController extends Controller
      * @param  \App\Models\ProjectCredential  $projectCredential
      * @return \Illuminate\Http\Response
      */
-    public function show(ProjectCredential $projectCredential)
+    public function show($projectCredential)
     {
-        //
+        $model = ProjectCredential::find($projectCredential);
+        return view('project-credential.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +71,10 @@ class ProjectCredentialController extends Controller
      * @param  \App\Models\ProjectCredential  $projectCredential
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProjectCredential $projectCredential)
+    public function edit($projectCredential)
     {
-        //
+        $model = ProjectCredential::find($projectCredential);
+        return view('project-credential.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +84,18 @@ class ProjectCredentialController extends Controller
      * @param  \App\Models\ProjectCredential  $projectCredential
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProjectCredential $projectCredential)
+    public function update(Request $request, $projectCredential)
     {
-        //
+        $request->validate([
+            'currency' => ['required', 'string']
+        ]);
+        $projectCredentialModel = ProjectCredential::find($projectCredential);
+        $projectCredentialModel->value = $request->input('value');
+        $projectCredentialModel->project_id = $request->input('project_id');
+        $projectCredentialModel->credential_type_id = $request->input('credential_type_id');
+        if ($projectCredentialModel->save()) {
+            return redirect()->route('project-credential.index');
+        }
     }
 
     /**
@@ -78,8 +104,10 @@ class ProjectCredentialController extends Controller
      * @param  \App\Models\ProjectCredential  $projectCredential
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProjectCredential $projectCredential)
+    public function destroy($projectCredential)
     {
-        //
+        if(ProjectCredential::find($projectCredential)->delete()) {
+            return redirect()->route('project-credential.index');
+        }
     }
 }

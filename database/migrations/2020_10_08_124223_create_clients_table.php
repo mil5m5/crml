@@ -16,14 +16,14 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('skype');
-            $table->string('email');
-            $table->string('telegram');
-            $table->string('whatsapp');
-            $table->string('phone');
+            $table->string('skype')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telegram')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('phone')->nullable();
             $table->integer('status');
-            $table->integer('paused_at');
-            $table->integer('finished_at');
+            $table->integer('paused_at')->default(0);
+            $table->integer('finished_at')->default(0);
             $table->timestamps();
             $table->foreignId('client_source_id')->constrained()->onDelete('cascade');
         });

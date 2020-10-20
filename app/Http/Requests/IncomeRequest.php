@@ -13,7 +13,7 @@ class IncomeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class IncomeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'project_id' => ['exists:App\Models\Project,id'],
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['numeric', 'required'],
         ];
     }
 }

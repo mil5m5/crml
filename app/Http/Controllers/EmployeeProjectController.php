@@ -14,7 +14,10 @@ class EmployeeProjectController extends Controller
      */
     public function index()
     {
-        //
+        $model = EmployeeProject::all();
+        return view('employee-project.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class EmployeeProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee-project.create');
     }
 
     /**
@@ -35,7 +38,6 @@ class EmployeeProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**

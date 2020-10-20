@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OutcomeRequest;
 use App\Models\Outcome;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,10 @@ class OutcomeController extends Controller
      */
     public function index()
     {
-        //
+        $model = Outcome::all();
+        return view('outcome.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +28,7 @@ class OutcomeController extends Controller
      */
     public function create()
     {
-        //
+        return view('outcome.create');
     }
 
     /**
@@ -35,7 +39,22 @@ class OutcomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['required'],
+            'type' => ['required'],
+        ]);
+        $outcome = new Outcome();
+        $outcome->type = $request->input('type');
+        $outcome->date = strtotime($request->input('date'));
+        $outcome->notes = $request->input('notes');
+        $outcome->amount = $request->input('amount');
+        $outcome->is_paid = $request->input('is_paid') == 'on' ? 1 : 0;
+        $outcome->paid_at = $request->input('paid_at');
+        $outcome->currency_id = $request->input('currency_id');
+        if ($outcome->save()) {
+            return redirect()->route('outcome.index');
+        }
     }
 
     /**
@@ -44,9 +63,12 @@ class OutcomeController extends Controller
      * @param  \App\Models\Outcome  $outcome
      * @return \Illuminate\Http\Response
      */
-    public function show(Outcome $outcome)
+    public function show($outcome)
     {
-        //
+        $model = Outcome::find($outcome);
+        return view('outcome.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +77,10 @@ class OutcomeController extends Controller
      * @param  \App\Models\Outcome  $outcome
      * @return \Illuminate\Http\Response
      */
-    public function edit(Outcome $outcome)
+    public function edit($outcome)
     {
-        //
+        $model = Outcome::find($outcome);
+        return view('outcome.update', ['model' => $model]);
     }
 
     /**
@@ -67,9 +90,25 @@ class OutcomeController extends Controller
      * @param  \App\Models\Outcome  $outcome
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Outcome $outcome)
+    public function update(Request $request, $outcome)
     {
-        //
+        $request->validate([
+            'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'amount' => ['required'],
+            'type' => ['required'],
+
+        ]);
+        $outcomeModel = Outcome::find($outcome);
+        $outcomeModel->type = $request->input('type');
+        $outcomeModel->date = strtotime($request->input('date'));
+        $outcomeModel->notes = $request->input('notes');
+        $outcomeModel->amount = $request->input('amount');
+        $outcomeModel->is_paid = $request->input('is_paid') == 'on' ? 1 : 0;
+        $outcomeModel->paid_at = $request->input('paid_at');
+        $outcomeModel->currency_id = $request->input('currency_id');
+        if ($outcomeModel->save()) {
+            return redirect()->route('outcome.index');
+        }
     }
 
     /**
@@ -78,8 +117,10 @@ class OutcomeController extends Controller
      * @param  \App\Models\Outcome  $outcome
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Outcome $outcome)
+    public function destroy($outcome)
     {
-        //
+        if(Outcome::find($outcome)->delete()) {
+            return redirect()->route('outcome.index');
+        }
     }
 }

@@ -13,7 +13,7 @@ class ProjectCredentialRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class ProjectCredentialRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'project_id' => ['exists:App\Models\Project,id', 'required'],
+            'credential_type_id' => ['exists:App\Models\ProjectCredentialType,id', 'required'],
         ];
     }
 }

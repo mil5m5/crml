@@ -14,7 +14,10 @@ class OutcomeTypeController extends Controller
      */
     public function index()
     {
-        //
+        $model = OutcomeType::all();
+        return view('outcome-type.index', [
+            'models' => $model
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class OutcomeTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('outcome-type.create');
     }
 
     /**
@@ -35,7 +38,14 @@ class OutcomeTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $outcomeType = new OutcomeType();
+        $outcomeType->name = $request->input('name');
+        if ($outcomeType->save()) {
+            return redirect()->route('outcome-type.index');
+        }
     }
 
     /**
@@ -44,9 +54,12 @@ class OutcomeTypeController extends Controller
      * @param  \App\Models\OutcomeType  $outcomeType
      * @return \Illuminate\Http\Response
      */
-    public function show(OutcomeType $outcomeType)
+    public function show($outcomeType)
     {
-        //
+        $model = OutcomeType::find($outcomeType);
+        return view('outcome-type.view', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -55,9 +68,10 @@ class OutcomeTypeController extends Controller
      * @param  \App\Models\OutcomeType  $outcomeType
      * @return \Illuminate\Http\Response
      */
-    public function edit(OutcomeType $outcomeType)
+    public function edit($outcomeType)
     {
-        //
+        $model = OutcomeType::find($outcomeType);
+        return view('outcome-type.update', ['model' => $model]);
     }
 
     /**
@@ -69,7 +83,14 @@ class OutcomeTypeController extends Controller
      */
     public function update(Request $request, OutcomeType $outcomeType)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string']
+        ]);
+        $outcomeTypeModel = OutcomeType::find($outcomeType);
+        $outcomeTypeModel->name = $request->input('name');
+        if ($outcomeTypeModel->save()) {
+            return redirect()->route('outcome-type.index');
+        }
     }
 
     /**
@@ -78,8 +99,10 @@ class OutcomeTypeController extends Controller
      * @param  \App\Models\OutcomeType  $outcomeType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OutcomeType $outcomeType)
+    public function destroy($outcomeType)
     {
-        //
+        if(OutcomeType::find($outcomeType)->delete()) {
+            return redirect()->route('outcome-type.index');
+        }
     }
 }

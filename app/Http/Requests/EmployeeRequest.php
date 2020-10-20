@@ -13,7 +13,7 @@ class EmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'position_id' => ['exists:App\Models\Position,id'],
+            'currency_id' => ['exists:App\Models\Currency,id'],
+            'name' => ['string', 'required'],
+            'salary' => 'integer',
+            'status' => 'integer',
         ];
     }
 }

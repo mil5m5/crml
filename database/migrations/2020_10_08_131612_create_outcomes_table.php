@@ -16,9 +16,9 @@ class CreateOutcomesTable extends Migration
         Schema::create('outcomes', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('notes');
-            $table->integer('is_paid');
-            $table->integer('paid_at');
+            $table->string('notes')->nullable();
+            $table->integer('is_paid')->default(1);
+            $table->integer('paid_at')->nullable();
             $table->integer('date');
             $table->double('amount');
             $table->timestamps();
