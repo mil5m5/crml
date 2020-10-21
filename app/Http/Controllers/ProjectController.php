@@ -12,9 +12,16 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = Project::all();
+        $id = $request->input('id');
+        $name = $request->input('name');
+        $client_id = $request->input('client_id');
+        $salary_type = $request->input('salary_type');
+        $salary_rate = $request->input('salary_rate');
+        $status = $request->input('status');
+        $currency_id = $request->input('currency_id');
+        $model = ProjectSearch::searching($id, $name, $client_id, $salary_type, $salary_rate, $paused_at, $finished_at, $status, $currency_id);
         return view('project.index', [
             'models' => $model
         ]);
@@ -45,7 +52,7 @@ class ProjectController extends Controller
         $project->name = $request->input('name');
         $project->client_id = $request->input('client_id');
         $project->salary_type = $request->input('salary_type');
-        $project->salary_rate = $request->input('salary_type');
+        $project->salary_rate = $request->input('salary_rate');
         if ($request->input('status') == Project::STATUS_PAUSED) {
             $project->paused_at = time();
         }elseif ($request->input('status') == Project::STATUS_FINISHED) {
@@ -100,6 +107,7 @@ class ProjectController extends Controller
         $projectModel->name = $request->input('name');
         $projectModel->client_id = $request->input('client_id');
         $projectModel->salary_type = $request->input('salary_type');
+        $project->salary_rate = $request->input('salary_rate');
         if ($request->input('status') == Project::STATUS_PAUSED) {
             $projectModel->paused_at = time();
         }elseif ($request->input('status') == Project::STATUS_FINISHED) {

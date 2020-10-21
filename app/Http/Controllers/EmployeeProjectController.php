@@ -15,6 +15,7 @@ class EmployeeProjectController extends Controller
     public function index()
     {
         $model = EmployeeProject::all();
+
         return view('employee-project.index', [
             'models' => $model
         ]);

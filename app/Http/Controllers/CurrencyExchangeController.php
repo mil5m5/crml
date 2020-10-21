@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CurrencyExchange;
+use App\Models\Searches\ClientSearch;
 use Illuminate\Http\Request;
 
 class CurrencyExchangeController extends Controller
@@ -12,9 +13,17 @@ class CurrencyExchangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $model = CurrencyExchange::all();
+        $id = $request->get('id');
+        $from_currency_id = $request->get('from_currency_id');
+        $to_currency_id = $request->get('to_currency_id');
+        $amount = $request->get('amount');
+        $rate = $request->get('rate');
+        $exchanged = $request->get('exchanged');
+        $date = $request->get('date');
+        $model = CurrencyExchangeSearch::searching($id, $from_currency_id, $to_currency_id, $amount, $rate, $exchanged, $date);
         return view('currency-exchange.index', [
             'models' => $model
         ]);

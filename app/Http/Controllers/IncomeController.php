@@ -14,7 +14,13 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $model = Income::all();
+        $date = strtotime($request->get('date'));
+        $notes = $request->get('notes');
+        $amount = $request->get('amount');
+        $currency_id = $request->get('currency_id');
+        $project_id = $request->get('project_id');
+        $model = IncomeSearch::searching($date, $notes, $amount, $currency_id, $project_id);
+
         return view('income.index', [
             'models' => $model
         ]);

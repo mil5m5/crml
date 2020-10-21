@@ -12,9 +12,16 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = Employee::all();
+        $name = $request->get('name');
+        $surname = $request->get('surname');
+        $salary = $request->get('salary');
+        $status = $request->get('status');
+        $currency_id = $request->get('currency_id');
+        $position_id = $request->get('position_id');
+        $model = EmployeeSearch::searching($name, $surname, $salary, $status, $currency_id, $position_id);
+
         return view('employee.index', [
             'models' => $model
         ]);

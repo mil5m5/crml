@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientSource;
+use App\Models\Searches\ClientSearch;
 use Illuminate\Http\Request;
 
 class ClientSourceController extends Controller
@@ -12,9 +13,11 @@ class ClientSourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = ClientSource::all();
+        $name = $request->get('name');
+        $id = $request->get('id');
+        $model = ClientSourceSearch::searching($id, $name);
         return view('client-source.index', [
             'models' => $model
         ]);

@@ -12,9 +12,16 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $model = Position::all();
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $min_salary = $request->get('min_salary');
+        $max_salary = $request->get('max_salary');
+        $currency_id = $request->get('currency_id');
+        $model = PositionSearch::searching($id, $name, $min_salary, $max_salary, $currency_id);
+
         return view('position.index', [
             'models' => $model
         ]);

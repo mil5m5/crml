@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Http\Requests\ClientRequest;
+use App\Models\Searches\ClientSearch;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class ClientController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = Client::all();
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $status = $request->get('status');
+        $client_source = $request->get('client_source');
+        $created_at = $request->get('created_at');
+        $model = ClientSearch::searching($id, $name, $status, $client_source, $created_at);
+
         return view('client.index', [
             'models' => $model
         ]);

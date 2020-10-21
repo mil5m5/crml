@@ -16,6 +16,17 @@
                 <th scope="col">Created At</th>
                 <th scope="col"></th>
             </tr>
+            <tr>
+                <form method="get">
+                    @csrf
+                    <th scope="col"><input type="text" name="id" class="form-control"></th>
+                    <th scope="col"><input type="text" name="name" class="form-control"></th>
+                    <th scope="col"><input type="text" name="status" class="form-control"></th>
+                    <th scope="col"><input type="text" name="client_source" class="form-control"></th>
+                    <th scope="col"><input type="text" name="created_at" class="form-control"></th>
+                    <th scope="col"><button id="client-search">Send</button></th>
+                </form>
+            </tr>
         </thead>
         <tbody>
             @forelse ($models as $model)

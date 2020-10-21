@@ -12,9 +12,11 @@ class OutcomeTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = OutcomeType::all();
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $model = OutcomeTypeSearch::searching($id, $name);
         return view('outcome-type.index', [
             'models' => $model
         ]);

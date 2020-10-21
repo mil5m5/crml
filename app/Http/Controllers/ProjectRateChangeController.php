@@ -12,9 +12,16 @@ class ProjectRateChangeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $model = ProjectRateChange::all();
+        $old_rate = $request->get('old_rate');
+        $new_rate = $request->get('new_rate');
+        $comment = $request->get('comment');
+        $project_id = $request->get('project_id');
+        $id = $request->get('id');
+        $model = ProjectRateChangeSearch::searching($old_rate, $new_rate, $comment, $project_id, $id);
+
         return view('project-rate-change.index', [
             'models' => $model
         ]);

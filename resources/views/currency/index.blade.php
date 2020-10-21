@@ -14,6 +14,15 @@
                 <th scope="col">Symbol</th>
                 <th scope="col"></th>
             </tr>
+            <tr>
+                <form method="get">
+                    @csrf
+                    <th scope="col"><input type="text" name="id" class="form-control"></th>
+                    <th scope="col"><input type="text" name="currency" class="form-control"></th>
+                    <th scope="col"><input type="text" name="symbol" class="form-control"></th>
+                    <th scope="col"><button id="client-search">Send</button></th>
+                </form>
+            </tr>
         </thead>
         <tbody>
             @forelse ($models as $model)

@@ -13,9 +13,17 @@ class OutcomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = Outcome::all();
+        $type = $request->get('type');
+        $date = strtotime($request->get('date'));
+        $notes = $request->get('notes');
+        $amount = $request->get('amount');
+        $is_paid = $request->get('is_paid') == 'on' ? 1 : 0;
+        $paid_at = $request->get('paid_at');
+        $currency_id = $request->get('currency_id');
+        $model = OutcomeSearch::searching($date, $notes, $amount, $currency_id, $type, $is_paid, $paid_at);
+
         return view('outcome.index', [
             'models' => $model
         ]);

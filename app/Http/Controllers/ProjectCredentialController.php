@@ -14,7 +14,11 @@ class ProjectCredentialController extends Controller
      */
     public function index()
     {
-        $model = ProjectCredential::all();
+        $id = $request->get('id');
+        $value = $request->get('value');
+        $project_id = $request->get('project_id');
+        $credential_type_id = $request->get('credential_type_id');
+        $model = ProjectCredentialSearch::searching($id, $value, $project_id, $credential_type_id);
         return view('project-credential.index', [
             'models' => $model
         ]);

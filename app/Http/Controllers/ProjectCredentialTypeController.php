@@ -12,9 +12,13 @@ class ProjectCredentialTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $model = ProjectCredentialType::all();
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $model = ProjectCredentialTypeSearch::searching($id, $name);
+
         return view('project-credential-type.index', [
             'models' => $model
         ]);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Currency;
+use App\Models\Searches\ClientSearch;
 use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
@@ -12,9 +13,12 @@ class CurrencyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $model = Currency::all();
+        $id = $request->get('id');
+        $currency = $request->get('currency');
+        $symbol = $request->get('symbol');
+        $model = CurrencySearch::searching($id, $currency, $symbol);
         return view('currency.index', [
             'models' => $model
         ]);

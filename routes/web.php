@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Searches\ClientSearch;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientSourceController;
 use App\Http\Controllers\CurrencyController;
@@ -30,7 +31,7 @@ use App\Http\Controllers\ProjectRateChangeController;
 
 Route::get('/', 'App\Http\Controllers\ClientController@index');
 
-Route::resource('client',ClientController::class);
+Route::resource('client', ClientController::class);
 Route::resource('client-source', ClientSourceController::class);
 Route::resource('currency', CurrencyController::class);
 Route::resource('currency-exchange', CurrencyExchangeController::class);
