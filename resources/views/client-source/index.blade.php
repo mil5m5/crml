@@ -11,14 +11,25 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
+                <th scope="col">Created At</th>
                 <th scope="col"></th>
             </tr>
         <tr>
             <form method="get">
                 @csrf
-                <th scope="col"><input type="text" name="id" class="form-control"></th>
-                <th scope="col"><input type="text" name="name" class="form-control"></th>
-                <th scope="col"><button id="client-search">Send</button></th>
+                <th scope="col"><input type="text" name="id" class="form-control form-control-sm"></th>
+                <th scope="col"><input type="text" name="name" class="form-control form-control-sm"></th>
+                <th scope="col">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                        </div>
+                        <input type="text" name="created_at" class="form-control form-control-sm float-right" id="reservation" value=" ">
+                    </div>
+                </th>
+                <th scope="col"><button class="d-none"></button></th>
             </form>
         </tr>
         </thead>
@@ -28,25 +39,7 @@
                 <td>{{ $model->id }}</td>
                 <td>{{ $model->name }}</td>
                 <td class="project-actions text-right">
-                    <a class="btn btn-primary btn-sm" href="{{ route('client-source.show', $model->id) }}">
-                        <i class="fas fa-folder">
-                        </i>
-                        View
-                    </a>
-                    <a class="btn btn-info btn-sm" href="{{ route('client-source.edit', $model->id) }}">
-                        <i class="fas fa-pencil-alt">
-                        </i>
-                        Edit
-                    </a>
-                    <form action="{{route('client-source.destroy', $model->id)}}" method="post" class="inline-block float-right" style="margin-left: 3px">
-                        @method('delete')
-                        @csrf
-                        <button class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash">
-                            </i>
-                            Delete
-                        </button>
-                    </form>
+                    @include('helpers.crud-buttons', ['id' => $model->id, 'url' => 'client-source'])
                 </td>
             </tr>
             @empty

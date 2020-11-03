@@ -15,7 +15,7 @@
     </tr>
     <tr>
         <th>Product</th>
-        <td>{{ $model->product->name }}</td>
+        <td>{{ $model->project->name }}</td>
     </tr>
     <tr>
         <th>Amount</th>

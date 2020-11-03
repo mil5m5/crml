@@ -15,7 +15,8 @@ class CreateEmployeesProjectsTable extends Migration
     {
         Schema::create('employees_projects', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
         });

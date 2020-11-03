@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Income;
+use App\Models\Searches\IncomeSearch;
 use Illuminate\Http\Request;
 
 class IncomeController extends Controller
@@ -12,14 +13,18 @@ class IncomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $date = strtotime($request->get('date'));
-        $notes = $request->get('notes');
-        $amount = $request->get('amount');
-        $currency_id = $request->get('currency_id');
-        $project_id = $request->get('project_id');
-        $model = IncomeSearch::searching($date, $notes, $amount, $currency_id, $project_id);
+        $model = Income::all();
+        if (empty($request)) {
+            $id = $request->get('id');
+            $date = strtotime($request->get('date'));
+            $amount = $request->get('amount');
+            $notes = $request->get('notes');
+            $currency_id = $request->get('currency_id');
+            $project_id = $request->get('project_id');
+            $model = IncomeSearch::searching($id, $date, $amount, $notes, $currency_id, $project_id);
+        }
 
         return view('income.index', [
             'models' => $model
@@ -31,9 +36,11 @@ class IncomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($project_id = NULL)
     {
-        return view('income.create');
+        return view('income.create', [
+            'project_id' => $project_id
+        ]);
     }
 
     /**
@@ -46,6 +53,7 @@ class IncomeController extends Controller
     {
         $request->validate([
             'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'project_id' => ['exists:App\Models\Project,id', 'required'],
             'amount' => ['required', 'numeric'],
         ]);
         $income = new Income();
@@ -54,6 +62,8 @@ class IncomeController extends Controller
         $income->amount = $request->input('amount');
         $income->currency_id = $request->input('currency_id');
         $income->project_id = $request->input('project_id');
+        $income->updated_at = time();
+        $income->created_at = time();
         if ($income->save()) {
             return redirect()->route('income.index');
         }
@@ -96,6 +106,7 @@ class IncomeController extends Controller
     {
         $request->validate([
             'currency_id' => ['exists:App\Models\Currency,id', 'required'],
+            'project_id' => ['exists:App\Models\Project,id', 'required'],
             'amount' => ['required'],
         ]);
         $incomeModel = Income::find($income);
@@ -104,6 +115,7 @@ class IncomeController extends Controller
         $incomeModel->amount = $request->input('amount');
         $incomeModel->currency_id = $request->input('currency_id');
         $incomeModel->project_id = $request->input('project_id');
+        $incomeModel->updated_at = time();
         if ($incomeModel->save()) {
             return redirect()->route('income.index');
         }

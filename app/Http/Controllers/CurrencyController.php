@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use App\Models\Searches\ClientSearch;
+use App\Models\Searches\CurrencySearch;
 use Illuminate\Http\Request;
 
 class CurrencyController extends Controller

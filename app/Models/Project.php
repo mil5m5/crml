@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Project extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     const STATUS_FINISHED = 0;
     const STATUS_ACTIVE = 1;
@@ -54,8 +55,19 @@ class Project extends Model
         return $this->belongsTo('App\Models\Currency');
     }
 
+    public function projectCredentials()
+    {
+        return $this->hasMany('App\Models\ProjectCredential');
+    }
+
+    public function incomes()
+    {
+        return $this->hasMany('App\Models\Income');
+    }
+
     public function client()
     {
         return $this->belongsTo('App\Models\Client');
     }
+
 }

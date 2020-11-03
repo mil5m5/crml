@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Searches\ProjectSearch;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -14,6 +15,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
+
         $id = $request->input('id');
         $name = $request->input('name');
         $client_id = $request->input('client_id');
@@ -21,7 +23,8 @@ class ProjectController extends Controller
         $salary_rate = $request->input('salary_rate');
         $status = $request->input('status');
         $currency_id = $request->input('currency_id');
-        $model = ProjectSearch::searching($id, $name, $client_id, $salary_type, $salary_rate, $paused_at, $finished_at, $status, $currency_id);
+        $created_at = $request->input('created_at');
+        $model = ProjectSearch::searching($id, $name, $client_id, $salary_type, $salary_rate, $status, $currency_id, $created_at);
         return view('project.index', [
             'models' => $model
         ]);
@@ -60,6 +63,8 @@ class ProjectController extends Controller
         }
         $project->status = $request->input('status');
         $project->currency_id = $request->input('currency_id');
+        $project->updated_at = time();
+        $project->created_at = time();
         if ($project->save()) {
             return redirect()->route('project.index');
         }
@@ -74,6 +79,7 @@ class ProjectController extends Controller
     public function show($project)
     {
         $model = Project::find($project);
+
         return view('project.view', [
             'model' => $model
         ]);
@@ -115,6 +121,7 @@ class ProjectController extends Controller
         }
         $projectModel->status = $request->input('status');
         $projectModel->currency_id = $request->input('currency_id');
+        $projectModel->updated_at = time();
         if ($projectModel->save()) {
             return redirect()->route('project.index');
         }

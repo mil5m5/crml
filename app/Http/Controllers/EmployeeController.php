@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Searches\EmployeeSearch;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -14,13 +15,14 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
+        $id = $request->get('$id');
         $name = $request->get('name');
-        $surname = $request->get('surname');
         $salary = $request->get('salary');
         $status = $request->get('status');
         $currency_id = $request->get('currency_id');
         $position_id = $request->get('position_id');
-        $model = EmployeeSearch::searching($name, $surname, $salary, $status, $currency_id, $position_id);
+        $created_at = $request->get('created_at');
+        $model = EmployeeSearch::searching($id, $name, $salary, $status, $currency_id, $position_id, $created_at);
 
         return view('employee.index', [
             'models' => $model
@@ -60,6 +62,8 @@ class EmployeeController extends Controller
         $employee->status = $request->input('status');
         $employee->currency_id = $request->input('currency_id');
         $employee->position_id = $request->input('position_id');
+        $employee->updated_at = time();
+        $employee->created_at = time();
         if ($employee->save()) {
             return redirect()->route('employee.index');
         }
@@ -115,6 +119,8 @@ class EmployeeController extends Controller
         $employee->status = $request->input('status');
         $employee->currency_id = $request->input('currency_id');
         $employee->position_id = $request->input('position_id');
+        $employee->updated_at = time();
+
         if ($employee->save()) {
             return redirect()->route('employee.index');
         }

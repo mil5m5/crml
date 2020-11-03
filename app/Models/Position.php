@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 class Position extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
     public static function getPositionsList()
     {
         return DB::table('positions')->pluck('name', 'id');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectRateChange;
+use App\Models\Searches\ProjectRateChangeSearch;
 use Illuminate\Http\Request;
 
 class ProjectRateChangeController extends Controller
@@ -14,13 +15,12 @@ class ProjectRateChangeController extends Controller
      */
     public function index(Request $request)
     {
-        $model = ProjectRateChange::all();
+        $id = $request->get('id');
         $old_rate = $request->get('old_rate');
         $new_rate = $request->get('new_rate');
-        $comment = $request->get('comment');
         $project_id = $request->get('project_id');
-        $id = $request->get('id');
-        $model = ProjectRateChangeSearch::searching($old_rate, $new_rate, $comment, $project_id, $id);
+        $created_at = $request->get('created_at');
+        $model = ProjectRateChangeSearch::searching($id, $old_rate, $new_rate, $project_id, $created_at);
 
         return view('project-rate-change.index', [
             'models' => $model
@@ -55,6 +55,8 @@ class ProjectRateChangeController extends Controller
         $projectRateChange->new_rate = $request->input('new_rate');
         $projectRateChange->comment = $request->input('comment');
         $projectRateChange->project_id = $request->input('project_id');
+        $projectRateChange->updated_at = time();
+        $projectRateChange->created_at = time();
         if ($projectRateChange->save()) {
             return redirect()->route('project-rate-change.index');
         }
@@ -105,6 +107,7 @@ class ProjectRateChangeController extends Controller
         $projectRateChangeModel->new_rate = $request->input('new_rate');
         $projectRateChangeModel->comment = $request->input('comment');
         $projectRateChangeModel->project_id = $request->input('project_id');
+        $projectRateChangeModel->updated_at = time();
         if ($projectRateChangeModel->save()) {
             return redirect()->route('project-rate-change.index');
         }

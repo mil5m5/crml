@@ -1,50 +1,54 @@
-@extends('layouts.main')
-@extends('client.create')
-@section('_form')
-    <form action="{{ route('client.store') }}" method="post">
-        @csrf
+@csrf
+<div class="row">
+    <div class="col-md-6">
         <div class="form-group">
-            <label for="client-name">Name</label>
-            <input id="client-name" class="form-control @error('name') is-invalid @enderror" name="name" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-status">Status</label>
-            <select id="client-status" class="form-control  @error('status') is-invalid @enderror" name="status">
-                <option value="" disabled selected hidden>Choose Status...</option>
-                @foreach(\App\Models\Client::getStatusNames() as $key => $status)
-                    <option value="{{ $key }}">{{ $status }}</option>
+            <label for="from-currency">From Currency</label>
+            <select id="from-currency" class="form-control form-control-sm @error('from_currency_id') is-invalid @enderror" name="from_currency_id">
+                <option value="" disabled selected hidden>Choose From Currency...</option>
+                @foreach(\App\Models\Currency::getCurrenciesList() as $key => $currency)
+                    @if (isset($model) && ($key == $model->from_currency_id))
+                        <option selected value="{{ $key }}">{{ $currency }}</option>
+                    @else
+                        <option value="{{ $key }}">{{ $currency }}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
-            <label for="client-source">Source</label>
-            <select id="client-source" class="form-control  @error('source') is-invalid @enderror" name="client_source_id">
-                <option value="" disabled selected hidden>Choose Source...</option>
-                @foreach(\App\Models\ClientSource::clientSourceList() as $key => $source)
-                    <option value="{{ $key }}">{{ $source }}</option>
+            <label for="to-currency">To Currency</label>
+            <select id="to-currency" class="form-control form-control-sm @error('to_currency_id') is-invalid @enderror" name="to_currency_id" >
+                <option value="" disabled selected hidden>Choose To Currency...</option>
+                @foreach(\App\Models\Currency::getCurrenciesList() as $key => $currency)
+                    @if ( isset($model) && ($key == $model->to_currency_id))
+                        <option selected value="{{ $key }}">{{ $currency }}</option>
+                    @else
+                        <option value="{{ $key }}">{{ $currency }}</option>
+                    @endif
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            <label for="client-email">Email</label>
-            <input id="client-email" class="form-control" name="email" type="text">
+    </div>
+</div>
+<div class="form-group">
+    <label for="currencyexchange-amount">Amount</label>
+    <input id="currencyexchange-amount" class="form-control form-control-sm @error('amount') is-invalid @enderror" name="amount" type="text" value="{{ $model->amount ?? '' }}">
+</div>
+<div class="form-group">
+    <label for="currencyexchange-rate">Rate</label>
+    <input id="currencyexchange-rate" class="form-control form-control-sm @error('rate') is-invalid @enderror" name="rate" type="text" value="{{ $model->rate ?? '' }}">
+</div>
+<div class="form-group">
+    <label for="currencyexchange-exchanged">Exchanged</label>
+    <input id="currencyexchange-exchanged" class="form-control form-control-sm @error('exchanged') is-invalid @enderror" name="exchanged" type="text" value="{{ $model->exchanged ?? '' }}">
+</div>
+<div class="form-group">
+    <label>Date</label>
+    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+        <input type="text" name="date" class="form-control datetimepicker-input @error('date') is-invalid @enderror" data-target="#reservationdate"/>
+        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
         </div>
-        <div class="form-group">
-            <label for="client-phone">Phone</label>
-            <input id="client-phone" class="form-control" name="phone" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-whatsapp">Whatsapp</label>
-            <input id="client-whatsapp" class="form-control" name="whatsapp" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-telegram">Telegram</label>
-            <input id="client-telegram" class="form-control" name="telegram" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-skype">Skype</label>
-            <input id="client-skype" class="form-control" name="skype" type="text">
-        </div>
-        <button class="btn btn-success">ok</button>
-    </form>
-@endsection
+    </div>
+</div>

@@ -16,7 +16,8 @@ class CreateClientSourcesTable extends Migration
         Schema::create('client_sources', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
         });
     }
 

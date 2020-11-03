@@ -3,6 +3,7 @@
 
 namespace App\Models\Searches;
 
+use App\Helpers\DateHelper;
 use App\Models\Client;
 
 class ClientSearch
@@ -25,7 +26,9 @@ class ClientSearch
                 $query->where('client_source_id', $client_source);
             }
             if (!is_null($created_at)) {
-                $query->where('created_at', $created_at);
+                $dateRangeInTimestamp = DateHelper::dateRangeToTimestampRange($created_at);
+                $query->where('created_at','>=', $dateRangeInTimestamp['start']);
+                $query->where('created_at','<=', $dateRangeInTimestamp['end']);
             }
 
             return $query->get();

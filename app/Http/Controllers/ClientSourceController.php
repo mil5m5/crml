@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ClientSource;
 use App\Models\Searches\ClientSearch;
+use App\Models\Searches\ClientSourceSearch;
 use Illuminate\Http\Request;
 
 class ClientSourceController extends Controller
@@ -46,6 +47,8 @@ class ClientSourceController extends Controller
         ]);
         $clientSource = new ClientSource();
         $clientSource->name = $request->input('name');
+        $clientSource->updated_at = time();
+        $clientSource->created_at = time();
         if ($clientSource->save()) {
             return redirect()->route('client-source.index');
         }
@@ -91,6 +94,7 @@ class ClientSourceController extends Controller
         ]);
         $clientSource = ClientSource::find($clientSource);
         $clientSource->name = $request->input('name');
+        $clientSource->updated_at = time();
         if ($clientSource->save()) {
             return redirect()->route('client-source.index');
         }

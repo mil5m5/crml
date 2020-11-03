@@ -29,20 +29,27 @@ use App\Http\Controllers\ProjectRateChangeController;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\ClientController@index');
+Route::middleware('auth')->group(function () {
+    Route::get('/', 'App\Http\Controllers\ClientController@index');
+    Route::resource('client', ClientController::class);
+    Route::resource('client-source', ClientSourceController::class);
+    Route::resource('currency', CurrencyController::class);
+    Route::resource('currency-exchange', CurrencyExchangeController::class);
+    Route::resource('employee', EmployeeController::class);
+    Route::resource('employee-project', EmployeeProjectController::class);
+    Route::resource('employee-salary-change', EmployeeSalaryChangeController::class);
+    Route::get('income/create/{project_id}', 'App\Http\Controllers\IncomeController@create')->name('incomeCreateWithProject');
+    Route::resource('income', IncomeController::class);
+    Route::resource('outcome', OutcomeController::class);
+    Route::resource('outcome-type', OutcomeTypeController::class);
+    Route::resource('position', PositionController::class);
+    Route::resource('project', ProjectController::class);
+    Route::resource('project-credential', ProjectCredentialController::class);
+    Route::resource('project-credential-type', ProjectCredentialTypeController::class);
+    Route::resource('project-rate-change', ProjectRateChangeController::class);
+});
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('client', ClientController::class);
-Route::resource('client-source', ClientSourceController::class);
-Route::resource('currency', CurrencyController::class);
-Route::resource('currency-exchange', CurrencyExchangeController::class);
-Route::resource('employee', EmployeeController::class);
-Route::resource('employee-project', EmployeeProjectController::class);
-Route::resource('employee-salary-change', EmployeeSalaryChangeController::class);
-Route::resource('income', IncomeController::class);
-Route::resource('outcome', OutcomeController::class);
-Route::resource('outcome-type', OutcomeTypeController::class);
-Route::resource('position', PositionController::class);
-Route::resource('project', ProjectController::class);
-Route::resource('project-credential', ProjectCredentialController::class);
-Route::resource('project-credential-type', ProjectCredentialTypeController::class);
-Route::resource('project-rate-change', ProjectRateChangeController::class);
+
+\Illuminate\Support\Facades\Auth::routes();
+

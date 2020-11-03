@@ -18,7 +18,8 @@ class CreateIncomesTable extends Migration
             $table->string('notes')->nullable();
             $table->integer('date');
             $table->double('amount');
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->foreignId('currency_id')->constrained();
         });

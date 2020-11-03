@@ -19,7 +19,8 @@ class CreateCurrencyExchangesTable extends Migration
             $table->double('amount');
             $table->double('exchanged')->nullable();
             $table->integer('date')->nullable();
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('from_currency_id')->constrained('currencies');
             $table->foreignId('to_currency_id')->constrained('currencies');
         });

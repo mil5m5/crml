@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class CurrencyExchange extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
     public function fromCurrency()
     {
         return $this->belongsTo('App\Models\Currency');

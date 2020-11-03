@@ -18,7 +18,8 @@ class CreateEmployeeSalaryChangesTable extends Migration
             $table->double('old_salary');
             $table->double('new_salary');
             $table->string('comment')->nullable();
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('employee_id')->constrained()->onDelete('cascade');
         });
     }

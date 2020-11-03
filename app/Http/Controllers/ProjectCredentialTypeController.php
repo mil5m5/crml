@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectCredentialType;
+use App\Models\Searches\ProjectCredentialTypeSearch;
 use Illuminate\Http\Request;
 
 class ProjectCredentialTypeController extends Controller
@@ -14,7 +15,6 @@ class ProjectCredentialTypeController extends Controller
      */
     public function index(Request $request)
     {
-        $model = ProjectCredentialType::all();
         $id = $request->get('id');
         $name = $request->get('name');
         $model = ProjectCredentialTypeSearch::searching($id, $name);

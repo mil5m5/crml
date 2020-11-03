@@ -18,7 +18,8 @@ class CreateProjectRateChangesTable extends Migration
             $table->double('old_rate');
             $table->double('new_rate');
             $table->string('comment')->nullable();
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
         });
     }

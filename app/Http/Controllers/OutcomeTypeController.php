@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OutcomeType;
+use App\Models\Searches\OutcomeTypeSearch;
 use Illuminate\Http\Request;
 
 class OutcomeTypeController extends Controller

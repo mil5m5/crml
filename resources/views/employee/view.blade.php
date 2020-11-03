@@ -66,4 +66,31 @@
         <td>{{ $model->updated_at }}</td>
     </tr>
 </table>
+{{--    <div>--}}
+{{--        <h3 class="mt-5">Incomes</h3>--}}
+{{--        <table class="table">--}}
+{{--            <thead>--}}
+{{--            <tr>--}}
+{{--                <th scope="col">#</th>--}}
+{{--                <th scope="col">Currency</th>--}}
+{{--                <th scope="col">amount</th>--}}
+{{--                <th scope="col">Created At</th>--}}
+{{--                <th scope="col"></th>--}}
+{{--            </tr>--}}
+{{--            </thead>--}}
+{{--            <tbody>--}}
+{{--            @foreach($model->projects as $project)--}}
+{{--                <tr>--}}
+{{--                    <th>{{ $project->id }}</th>--}}
+{{--                    <th>{{ $project->currency->currency }}</th>--}}
+{{--                    <th>{{ $project->amount }}</th>--}}
+{{--                    <th>{{ date('d.m.Y', $project->created_at) }}</th>--}}
+{{--                    <th>--}}
+{{--                        @include('helpers.crud-buttons', ['id' => $project->id, 'url' => 'project'])--}}
+{{--                    </th>--}}
+{{--                </tr>--}}
+{{--            @endforeach--}}
+{{--            </tbody>--}}
+{{--        </table>--}}
+{{--    </div>--}}
 @endsection

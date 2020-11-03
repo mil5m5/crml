@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectCredential;
+use App\Models\Searches\ProjectCredentialSearch;
 use Illuminate\Http\Request;
 
 class ProjectCredentialController extends Controller
@@ -12,13 +13,13 @@ class ProjectCredentialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = $request->get('id');
-        $value = $request->get('value');
         $project_id = $request->get('project_id');
         $credential_type_id = $request->get('credential_type_id');
-        $model = ProjectCredentialSearch::searching($id, $value, $project_id, $credential_type_id);
+        $created_at = $request->get('created_at');
+        $model = ProjectCredentialSearch::searching($id, $project_id, $credential_type_id, $created_at);
         return view('project-credential.index', [
             'models' => $model
         ]);
@@ -50,6 +51,8 @@ class ProjectCredentialController extends Controller
         $projectCredential->value = $request->input('value');
         $projectCredential->project_id = $request->input('project_id');
         $projectCredential->credential_type_id = $request->input('credential_type_id');
+        $projectCredential->updated_at = time();
+        $projectCredential->created_at = time();
         if ($projectCredential->save()) {
             return redirect()->route('project-credential.index');
         }
@@ -97,6 +100,7 @@ class ProjectCredentialController extends Controller
         $projectCredentialModel->value = $request->input('value');
         $projectCredentialModel->project_id = $request->input('project_id');
         $projectCredentialModel->credential_type_id = $request->input('credential_type_id');
+        $projectCredentialModel->updated_at = time();
         if ($projectCredentialModel->save()) {
             return redirect()->route('project-credential.index');
         }

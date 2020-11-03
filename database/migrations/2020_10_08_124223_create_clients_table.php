@@ -24,7 +24,8 @@ class CreateClientsTable extends Migration
             $table->integer('status');
             $table->integer('paused_at')->default(0);
             $table->integer('finished_at')->default(0);
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('client_source_id')->constrained()->onDelete('cascade');
         });
     }

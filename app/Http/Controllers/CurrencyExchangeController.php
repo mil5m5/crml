@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CurrencyExchange;
 use App\Models\Searches\ClientSearch;
+use App\Models\Searches\CurrencyExchangeSearch;
 use Illuminate\Http\Request;
 
 class CurrencyExchangeController extends Controller
@@ -61,6 +62,8 @@ class CurrencyExchangeController extends Controller
         $currencyExchange->rate = $request->input('rate');
         $currencyExchange->exchanged = $request->input('exchanged');
         $currencyExchange->date = $request->input('date');
+        $currencyExchange->updated_at = time();
+        $currencyExchange->created_at = time();
         if ($currencyExchange->save()) {
             return redirect()->route('currency-exchange.index');
         }
@@ -115,6 +118,7 @@ class CurrencyExchangeController extends Controller
         $currencyExchangeModel->rate = $request->input('rate');
         $currencyExchangeModel->exchanged = $request->input('exchanged');
         $currencyExchangeModel->date = $request->input('date');
+        $currencyExchangeModel->updated_at = time();
         if ($currencyExchangeModel->save()) {
             return redirect()->route('currency-exchange.index');
         }

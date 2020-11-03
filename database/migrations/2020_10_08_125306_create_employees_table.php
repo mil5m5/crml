@@ -24,7 +24,8 @@ class CreateEmployeesTable extends Migration
             $table->string('phone')->nullable();
             $table->integer('salary')->nullable();
             $table->integer('status')->nullable();
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('currency_id')->constrained();
             $table->foreignId('position_id')->constrained()->onDelete('cascade');
         });

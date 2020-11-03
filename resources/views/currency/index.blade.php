@@ -17,10 +17,10 @@
             <tr>
                 <form method="get">
                     @csrf
-                    <th scope="col"><input type="text" name="id" class="form-control"></th>
-                    <th scope="col"><input type="text" name="currency" class="form-control"></th>
-                    <th scope="col"><input type="text" name="symbol" class="form-control"></th>
-                    <th scope="col"><button id="client-search">Send</button></th>
+                    <th scope="col"><input type="text" name="id" class="form-control form-control-sm"></th>
+                    <th scope="col"><input type="text" name="currency" class="form-control form-control-sm"></th>
+                    <th scope="col"><input type="text" name="symbol" class="form-control form-control-sm"></th>
+                    <th scope="col"><button class="d-none"></button></th>
                 </form>
             </tr>
         </thead>
@@ -32,25 +32,7 @@
                 <td>{{ $model->currency }}</td>
                 <td>{{ $model->symbol }}</td>
                 <td class="project-actions text-right">
-                    <a class="btn btn-primary btn-sm" href="{{ route('currency.show', $model->id) }}">
-                        <i class="fas fa-folder">
-                        </i>
-                        View
-                    </a>
-                    <a class="btn btn-info btn-sm" href="{{ route('currency.edit', $model->id) }}">
-                        <i class="fas fa-pencil-alt">
-                        </i>
-                        Edit
-                    </a>
-                    <form action="{{route('currency.destroy', $model->id)}}" method="post" class="inline-block float-right" style="margin-left: 3px">
-                        @method('delete')
-                        @csrf
-                        <button class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash">
-                            </i>
-                            Delete
-                        </button>
-                    </form>
+                    @include('helpers.crud-buttons', ['id' => $model->id, 'url' => 'currency'])
                 </td>
             </tr>
             @empty

@@ -1,50 +1,70 @@
-@extends('layouts.main')
-@extends('client.create')
-@section('_form')
-    <form action="{{ route('client.store') }}" method="post">
-        @csrf
+@csrf
+<div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" class="form-control form-control-sm @error('name') is-invalid @enderror" name="name" type="text" {{ $model->name ?? '' }}>
+</div>
+<div class="row">
+    <div class="col-md-6">
         <div class="form-group">
-            <label for="client-name">Name</label>
-            <input id="client-name" class="form-control @error('name') is-invalid @enderror" name="name" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-status">Status</label>
-            <select id="client-status" class="form-control  @error('status') is-invalid @enderror" name="status">
-                <option value="" disabled selected hidden>Choose Status...</option>
-                @foreach(\App\Models\Client::getStatusNames() as $key => $status)
-                    <option value="{{ $key }}">{{ $status }}</option>
+            <label for="salary-type">Salary Type</label>
+            <select id="salary-type" class="form-control form-control-sm @error('salary_type') is-invalid @enderror" name="salary_type">
+                <option value="" disabled selected hidden>Choose Salary Type...</option>
+                @foreach(\App\Models\Project::getSalaryTypes() as $key => $salaryType)
+                    @if(isset($model) && ($model->salary_type == $key))
+                        <option selected value="{{ $key }}">{{ $salaryType }}</option>
+                    @else
+                        <option value="{{ $key }}">{{ $salaryType }}</option>
+
+                    @endif
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            <label for="client-source">Source</label>
-            <select id="client-source" class="form-control  @error('source') is-invalid @enderror" name="client_source_id">
-                <option value="" disabled selected hidden>Choose Source...</option>
-                @foreach(\App\Models\ClientSource::clientSourceList() as $key => $source)
-                    <option value="{{ $key }}">{{ $source }}</option>
-                @endforeach
-            </select>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="salary-rate">Salary Rate</label>
+                <input id="salary-rate" class="form-control form-control-sm" name="salary_rate" type="text" {{ $model->salary_rate ?? '' }}>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="client-email">Email</label>
-            <input id="client-email" class="form-control" name="email" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-phone">Phone</label>
-            <input id="client-phone" class="form-control" name="phone" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-whatsapp">Whatsapp</label>
-            <input id="client-whatsapp" class="form-control" name="whatsapp" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-telegram">Telegram</label>
-            <input id="client-telegram" class="form-control" name="telegram" type="text">
-        </div>
-        <div class="form-group">
-            <label for="client-skype">Skype</label>
-            <input id="client-skype" class="form-control" name="skype" type="text">
-        </div>
-        <button class="btn btn-success">ok</button>
-    </form>
-@endsection
+    </div>
+</div>
+<div class="form-group">
+    <label for="client">Client</label>
+    <select id="client" class="form-control form-control-sm @error('status') is-invalid @enderror" name="client_id">
+        <option value="" disabled selected hidden>Choose Client...</option>
+        @foreach(\App\Models\Client::getClientsList() as $key => $client)
+            @if(isset($model) && ($model->client_id == $key))
+                <option selected value="{{ $key }}">{{ $client }}</option>
+            @else
+                <option value="{{ $key }}">{{ $client }}</option>
+            @endif
+        @endforeach
+    </select>
+</div>
+<div class="form-group">
+    <label for="currency">Currency</label>
+    <select id="currency" class="form-control form-control-sm @error('currency_id') is-invalid @enderror" name="currency_id">
+        <option value="" disabled selected hidden>Choose Currency...</option>
+        @foreach(\App\Models\Currency::getCurrenciesList() as $key => $currency)
+            @if(isset($model) && ($model->currency_id == $key))
+                <option selected value="{{ $key }}">{{ $currency }}</option>
+            @else
+                <option value="{{ $key }}">{{ $currency }}</option>
+            @endif
+        @endforeach
+    </select>
+</div>
+<div class="form-group">
+    <label for="status">Status</label>
+    <select id="status" class="form-control form-control-sm @error('status') is-invalid @enderror" name="status">
+        <option value="" disabled selected hidden>Choose Status...</option>
+        @foreach(\App\Models\Project::getStatusNames() as $key => $status)
+            @if(isset($model) && ($model->status == $key))
+                <option selected value="{{ $key }}">{{ $status }}</option>
+            @else
+                <option value="{{ $key }}">{{ $status }}</option>
+            @endif
+        @endforeach
+    </select>
+</div>

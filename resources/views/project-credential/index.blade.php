@@ -16,6 +16,41 @@
                 <th scope="col">Created At</th>
                 <th scope="col"></th>
             </tr>
+            <tr>
+                <form method="get">
+                    @csrf
+                    <th scope="col"><input type="text" name="id" class="form-control form-control-sm"></th>
+                    <th scope="col">
+                        <select class="form-control form-control-sm @error('project_id') is-invalid @enderror" name="project_id">
+                            <option value="" disabled selected hidden>Choose Source...</option>
+                            @foreach(\App\Models\Project::getProjectsList() as $key => $project)
+                                <option value="{{ $key }}">{{ $project }}</option>
+                            @endforeach
+                        </select>
+                    </th>
+                    <th scope="col">
+                        <select class="form-control form-control-sm @error('credential_type_id') is-invalid @enderror" name="credential_type_id">
+                            <option value="" disabled selected hidden>Choose Source...</option>
+                            @foreach(\App\Models\ProjectCredentialType::getProjectCredentialTypesList() as $key => $credential_type)
+                                <option value="{{ $key }}">{{ $credential_type }}</option>
+                            @endforeach
+                        </select>
+                    </th>
+                    <th scope="col">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" name="created_at" class="form-control form-control-sm float-right" id="reservation" value=" ">
+                        </div>
+                    </th>
+                    <th scope="col"><button class="d-none"></button></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </form>
+            </tr>
         </thead>
         <tbody>
             @forelse ($models as $model)
@@ -27,25 +62,7 @@
                 <td>{{ $model->value }}</td>
                 <td>{{ $model->created_at }}</td>
                 <td class="project-actions text-right">
-                    <a class="btn btn-primary btn-sm" href="{{ route('project-credential.show', $model->id) }}">
-                        <i class="fas fa-folder">
-                        </i>
-                        View
-                    </a>
-                    <a class="btn btn-info btn-sm" href="{{ route('project-credential.edit', $model->id) }}">
-                        <i class="fas fa-pencil-alt">
-                        </i>
-                        Edit
-                    </a>
-                    <form action="{{route('project-credential.destroy', $model->id)}}" method="post" class="inline-block float-right" style="margin-left: 3px">
-                        @method('delete')
-                        @csrf
-                        <button class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash">
-                            </i>
-                            Delete
-                        </button>
-                    </form>
+                    @include('helpers.crud-buttons', ['id' => $model->id, 'url' => 'project-credential'])
                 </td>
             </tr>
             @empty

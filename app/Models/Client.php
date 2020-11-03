@@ -10,6 +10,7 @@ class Client extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public $timestamps = false;
 
     const STATUS_FINISHED = 0;
     const STATUS_ACTIVE = 1;
@@ -32,6 +33,10 @@ class Client extends Model
     public static function getClientsList()
     {
         return DB::table('clients')->pluck('name', 'id');
+    }
 
+    public function projects()
+    {
+        return $this->hasMany('App\Models\Project');
     }
 }

@@ -21,7 +21,8 @@ class CreateOutcomesTable extends Migration
             $table->integer('paid_at')->nullable();
             $table->integer('date');
             $table->double('amount');
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('currency_id')->constrained();
         });
     }

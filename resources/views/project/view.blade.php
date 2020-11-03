@@ -41,5 +41,73 @@
         <th>Updated At</th>
         <td>{{ $model->updated_at }}</td>
     </tr>
+    <tr>
+        <th>Paused At</th>
+        <td>{{ $model->paused_at }}</td>
+    </tr>
+    <tr>
+        <th>Finished At</th>
+        <td>{{ $model->finished_at }}</td>
+    </tr>
 </table>
+
+<div>
+    <h3 class="mt-5">Project Credential</h3>
+    <a href="{{ route('project-credential.create') }}">
+        <button class="btn btn-success mb-2">+ Create Project Credential</button>
+    </a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Credential Type</th>
+            <th scope="col">Value</th>
+            <th scope="col">Created At</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($model->projectCredentials as $projectCredential)
+            <tr>
+                <th>{{ $projectCredential->id }}</th>
+                <th>{{ $projectCredential->credentialType->name }}</th>
+                <th>{{ $projectCredential->value }}</th>
+                <th>{{ date('d.m.Y', $projectCredential->created_at) }}</th>
+                <th>
+                    @include('helpers.crud-buttons', ['id' => $projectCredential->id, 'url' => 'project-credential'])
+                </th>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+</div>
+    <div>
+        <h3 class="mt-5">Incomes</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Currency</th>
+                <th scope="col">amount</th>
+                <th scope="col">Created At</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($model->incomes as $income)
+                <tr>
+                    <th>{{ $income->id }}</th>
+                    <th>{{ $income->currency->currency }}</th>
+                    <th>{{ $income->amount }}</th>
+                    <th>{{ date('d.m.Y', $income->created_at) }}</th>
+                    <th>
+                        @include('helpers.crud-buttons', ['id' => $income->id, 'url' => 'income'])
+                    </th>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
+
 @endsection

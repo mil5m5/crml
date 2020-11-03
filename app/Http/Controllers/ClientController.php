@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Searches\ClientSearch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -57,6 +58,8 @@ class ClientController extends Controller
         $client->phone = $request->input('phone', '');
         $client->whatsapp = $request->input('whatsapp', '');
         $client->telegram = $request->input('telegram', '');
+        $client->updated_at = time();
+        $client->created_at = time();
         if ($client->save()) {
             return redirect()->route('client.index');
         }
@@ -116,6 +119,7 @@ class ClientController extends Controller
         $client->phone = $request->input('phone', '');
         $client->whatsapp = $request->input('whatsapp', '');
         $client->telegram = $request->input('telegram', '');
+        $client->updated_at = time();
         if ($client->save()) {
             return redirect()->route('client.index');
         }

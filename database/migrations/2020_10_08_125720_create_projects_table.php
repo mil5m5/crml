@@ -21,7 +21,8 @@ class CreateProjectsTable extends Migration
             $table->integer('finished_at')->nullable();
             $table->integer('paused_at')->nullable();
             $table->integer('status');
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->foreignId('currency_id')->constrained();
         });

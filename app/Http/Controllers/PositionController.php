@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Position;
+use App\Models\Searches\PositionSearch;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
@@ -14,13 +15,13 @@ class PositionController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Position::all();
         $id = $request->get('id');
         $name = $request->get('name');
         $min_salary = $request->get('min_salary');
         $max_salary = $request->get('max_salary');
         $currency_id = $request->get('currency_id');
-        $model = PositionSearch::searching($id, $name, $min_salary, $max_salary, $currency_id);
+        $created_at = $request->get('created_at');
+        $model = PositionSearch::searching($id, $name, $min_salary, $max_salary, $currency_id, $created_at);
 
         return view('position.index', [
             'models' => $model
@@ -53,6 +54,8 @@ class PositionController extends Controller
         $position->min_salary = $request->input('min_salary');
         $position->max_salary = $request->input('max_salary');
         $position->currency_id = $request->input('currency_id');
+        $position->updated_at = time();
+        $position->created_at = time();
         if ($position->save()) {
             return redirect()->route('position.index');
         }
@@ -100,6 +103,7 @@ class PositionController extends Controller
         $positionModel->min_salary = $request->input('min_salary');
         $positionModel->max_salary = $request->input('max_salary');
         $positionModel->currency_id = $request->input('currency_id');
+        $positionModel->updated_at = time();
         if ($positionModel->save()) {
             return redirect()->route('position.index');
         }

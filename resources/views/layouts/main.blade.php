@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,6 +27,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -40,6 +44,37 @@
                 </a>
             </li>
         </ul>
+        <ul class="navbar-nav ml-auto">
+            <!-- Authentication Links -->
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (\Illuminate\Routing\Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+            @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @endguest
+        </ul>
 
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -51,132 +86,170 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
                         <a href="" class="nav-link text-style">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>
+                            <i class="fas fa-home"></i>
+                            <p class="nav-titles">
                                 Home
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('client.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-user"></i>
+                        <a class="nav-link text-style pointer">
+                            <i class="fas fa-user"></i>
                             <p>
                                 Client
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('client.index') }}" class="nav-link text-style">
+                                    <p>
+                                        Client
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('client-source.index') }}" class="nav-link text-style">
+                                    <p>
+                                        Client Source
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('client-source.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-user"></i>
-                            <p>
-                                Client Source
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('currency.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-money-bill-wave"></i>
-                            <p>
-                                Currency
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('currency-exchange.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-money-bill-wave"></i>
-                            <p>
-                                Currency Exchanges
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employee.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-user-friends"></i>
+                        <a class="nav-link text-style pointer">
+                            <i class="fas fa-user-friends"></i>
                             <p>
                                 Employee
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('employee.index') }}" class="nav-link text-style">
+                                    <p class="nav-titles">
+                                        Employee
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('employee-salary-change.index') }}" class="nav-link text-style">
+                                    <p class="nav-titles">
+                                        Employee Salary Changes
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('employee-project.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-user-friends"></i>
+                        <a class="nav-link text-style pointer">
+                            <i class="fas fa-project-diagram"></i>
                             <p>
-                                Employee Project
+                                Project
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('project.index') }}" class="nav-link text-style">
+                                    <p>
+                                        Project
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('project-credential.index') }}" class="nav-link text-style">
+                                    <p>
+                                        Project Credential
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('project-credential-type.index') }}" class="nav-link text-style">
+                                    <p>
+                                        Project Credential Type
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('project-rate-change.index') }}" class="nav-link text-style">
+                                    <p>
+                                        Project Rate Changes
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('employee-salary-change.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-user-friends"></i>
+                        <a class="nav-link text-style pointer">
+                            <i class="fas fa-money-bill-wave"></i>
                             <p>
-                                Employee Salary Changes
+                                Currency
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('currency.index') }}" class="nav-link text-style">
+                                    <p class="nav-titles">
+                                        Currency
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('currency-exchange.index') }}" class="nav-link text-style">
+                                    <p class="nav-titles">
+                                        Currency Exchanges
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-style pointer">
+                            <i class="fas fa-sort-amount-up-alt"></i>
+                            <p>
+                                Outcome
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('outcome.index') }}" class="nav-link text-style">
+                                    <i class="fas fa-sort-amount-up-alt"></i>
+                                    <p class="nav-titles">
+                                        Outcome
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('outcome-type.index') }}" class="nav-link text-style">
+                                    <i class="fas fa-list"></i>
+                                    <p class="nav-titles">
+                                        Outcome Type
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('income.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-sort-amount-down-alt"></i>
-                            <p>
+                            <i class="fas fa-sort-amount-down-alt"></i>
+                            <p class="nav-titles">
                                 Income
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('outcome.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-sort-amount-up-alt"></i>
-                            <p>
-                                Outcome
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('outcome-type.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-list"></i>
-                            <p>
-                                Outcome Type
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('position.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-vote-yea"></i>
-                            <p>
+                            <i class="fas fa-vote-yea"></i>
+                            <p class="nav-titles">
                                 Position
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('project.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-project-diagram"></i>
-                            <p>
-                                Project
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('project-credential.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-project-diagram"></i>
-                            <p>
-                                Project Credential
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('project-credential-type.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-project-diagram"></i>
-                            <p>
-                                Project Credential Type
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('project-rate-change.index') }}" class="nav-link text-style">
-                            <i class="nav-icon fas fa-exchange-alt"></i>
-                            <p>
-                                Project Rate Changes
-                            </p>
-                        </a>
-                    </li>
+
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -227,6 +300,8 @@
     <script src="{{ asset('js/date-widget.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+
+    <script src="{{ asset('js/currency-exchange.js') }}"></script>
 </div>
 </body>
 </html>
